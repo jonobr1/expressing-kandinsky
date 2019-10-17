@@ -1,0 +1,39 @@
+{
+  "name": "expressing-k",
+  "version": "1.0.0",
+  "description": "An interactive website to understand Wassily Kandinsky's \"science of art\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vuepress dev site",
+    "build": "vuepress build site"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonobr1/expressing-k.git"
+  },
+  "keywords": [
+    "abstract",
+    "kandinsky",
+    "html5",
+    "two.js",
+    "bi-directional"
+  ],
+  "author": "jonobr1",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonobr1/expressing-k/issues"
+  },
+  "homepage": "https://github.com/jonobr1/expressing-k#readme",
+  "devDependencies": {
+    "@vuepress/plugin-active-header-links": "^1.0.0-rc.1",
+    "@vuepress/plugin-medium-zoom": "^1.0.0-rc.1",
+    "@vuepress/plugin-nprogress": "^1.0.0-rc.1",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "vuepress": "^1.2.0"
+  },
+  "dependencies": {
+    "@jonobr1/two.js": "git+https://github.com/jonobr1/two.js.git"
+  }
+}
