@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="two">
+      <script src="../third-party/two.js"></script>
+      <script src="../third-party/xhr.js"></script>
+      <script>
+
+        var two = new Two({
+          type: Two.Types.canvas,
+          width: 800,
+          height: 1200,
+          overdraw: true,
+          ratio: 8
+        }).appendTo(document.body);
+
+        two.renderer.domElement.style.border = '1px solid #ccc';
+
+        var radius = 2;
+        var tags = {
+          ADJ: {
+            fill: 'rgb(50, 255, 150)',
+            stroke: 'transparent',
+            innerRadius: 1, outerRadius: radius, sides: 5
+          },
+          ADP: {
+            fill: 'rgb(150, 255, 50)',
+            stroke: 'transparent',
+            innerRadius: radius / 2, outerRadius: radius, sides: 4
+          },
+          ADV: {
+            fill: 'rgb(50, 255, 50)',
+            stroke: 'transparent',
+            innerRadius: radius / 2, outerRadius: radius, sides: 4
+          },
+          CONJ: {
+            fill: 'rgb(255, 255, 75)',
+            stroke: 'transparent',
+            innerRadius: radius, outerRadius: radius, sides: 5
+          },
+          DET: {
+            fill: 'rgb(75, 255, 255)',
+            stroke: 'transparent',
+            innerRadius: radius, outerRadius: radius, sides: 5
+          },
+          NOUN: {
+            fill: '#00aeff',
+            stroke: 'transparent',
+            innerRadius: radius, outerRadius: radius, sides: 4
+          },
+          NUM: {
+            fill: 'rgb(200, 200, 200)',
+            stroke: 'transparent',
+            innerRadius: radius / 2, outerRadius: radius, sides: 9
+          },
+          PRON: {
+            fill: 'rgb(75, 255, 255)',
+            stroke: 'transparent',
+            innerRadius: radius / 2, outerRadius: radius, sides: 3
+          },
+          PRT: {
+            fill: 'rgb(200, 50, 200)',
+            stroke: 'transparent',
+            innerRadius: radius, outerRadius: radius, sides: 6
+          },
+          PUNCT: {
+            fill: 'black',
+            stroke: 'transparent',
+            innerRadius: radius, outerRadius: radius, sides: 8
+          },
+          VERB: {
+            fill: 'rgb(255, 50, 50)',
+            stroke: 'transparent',
+            innerRadius: radius, outerRadius: radius, sides: 3
+          },
+          X: {
+            fill: 'transparent',
+            stroke: 'black',
+            innerRadius: 0,
+            outerRadius: radius,
+            sides: 4
+          }
+        };
+
+        var tokens, index = 0;
+        var rows, cols;
+        var polygon = new Two.Star(- 50, - 50);
+        var line = new Two.Line();
+
+        line.stroke = '#333';
+        line.opacity = 0.1;
+
+        polygon.noStroke();
+        polygon.linewidth = 0.5;
+        polygon.fill = 'orange';
+        polygon.cap = 'round';
+
+        two.add(line, polygon);
+
+        xhr.get('./assets/concerning-the-spiritual-in-art.tokens.json', setup);
+
+        function setup(resp) {
+
+          var json = JSON.parse(resp);
+          tokens = json.tokens;
+
+          cols = Math.floor(Math.sqrt(tokens.length));
+          rows = Math.ceil(tokens.length / cols);
+
+          two.bind('update', draw);
+          two.play();
+
+        }
+
+        // function draw() {
+        //
+        //   var i = 0;
+        //   while (i < 50) {
+        //     update();
+        //     two.update();
+        //     i++;
+        //   }
+        //
+        //   requestAnimationFrame(draw);
+        //
+        // }
+
+        function draw() {
+
+          if (index >= tokens.length) {
+            console.log('Finished rendering');
+            polygon.visible = false;
+            line.visible = false;
+            return;
+          }
+
+          var token = tokens[index];
+          var tag = token.partOfSpeech.tag;
+          var params = tags[tag];
+
+          for (var k in params) {
+            polygon[k] = params[k];
+          }
+
+          var width = two.width * 0.9;
+          var height = two.height * 0.9;
+          var margin = (two.width - width) / 2;
+
+          var col = index % cols;
+          var row = Math.floor(index / cols);
+
+          var x = width * col / cols + margin;
+          var y = height * row / rows + margin;
+
+          polygon.position.set(x, y);
+          // two.update();
+
+          index++;
+
+        }
+
+      </script>
+    </div>
+  </body>
+</html>

@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/jonobr1/expressing-k#readme",
   "devDependencies": {
+    "@google-cloud/language": "^3.5.1",
     "@vuepress/plugin-active-header-links": "^1.0.0-rc.1",
     "@vuepress/plugin-medium-zoom": "^1.0.0-rc.1",
     "@vuepress/plugin-nprogress": "^1.0.0-rc.1",
