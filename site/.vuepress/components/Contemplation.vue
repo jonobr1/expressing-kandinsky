@@ -29,8 +29,7 @@
         var two = this.two = new Two({
           type: this.type,
           width: startWidth,
-          height: startHeight,
-          autostart: true
+          height: startHeight
         }).appendTo(this.$refs.stage);
 
         this.resize = (e) => {
@@ -39,12 +38,16 @@
           var width = rect.width
           var height = Math.min(rect.height, startHeight);
 
-          two.renderer.setSize(width, height);
           two.width = width;
           two.height = height;
+          two.renderer.setSize(width, height);
 
         };
         window.addEventListener('resize', this.resize, false);
+
+        this.scroll = debounce(scroll, 50, this);
+        document.body.addEventListener('wheel', this.scroll, false);
+        this.scroll();
 
         if (this.sketch) {
 
@@ -69,6 +72,20 @@
 
         }
 
+        function scroll() {
+
+          var rect = this.$refs.stage.getBoundingClientRect();
+          var isVisible = rect.bottom > 0 && rect.top < window.innerHeight
+            && rect.right > 0 && rect.left < window.innerWidth;
+
+          if (isVisible && !two.playing) {
+            two.play();
+          } else if (!isVisible && two.playing) {
+            two.pause();
+          }
+
+        }
+
         function invoke(code) {
           try {
             new Function('two', code)(two);
@@ -89,6 +106,26 @@
       }
     }
   };
+
+  function debounce(func, delay, ctx) {
+
+    var timeout;
+
+    function callback() {
+      func.apply(ctx, arguments);
+    };
+
+    return function() {
+
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+
+      timeout = setTimeout(callback, delay);
+
+    };
+
+  }
 
 </script>
 
