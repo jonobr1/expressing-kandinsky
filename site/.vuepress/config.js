@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Expressing Kandinsky',
   description: 'An interactive website to understand Wassily Kandinsky\'s "science of art"',
-  base: '/',
+  base: '/expressing-k/',
   head: [
     ['link', { rel: 'icon', href: '/images/favicon.png' } ],
     ['link', { rel: 'stylesheet', href: '/styles/vueperslides.css' } ]
