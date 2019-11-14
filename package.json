@@ -32,6 +32,8 @@
     "@vuepress/plugin-nprogress": "^1.0.0-rc.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "markdown-it-footnote": "^3.0.2",
+    "vueperslides": "^1.21.0",
     "vuepress": "^1.2.0"
   },
   "dependencies": {

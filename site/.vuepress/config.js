@@ -3,24 +3,35 @@ module.exports = {
   description: 'An interactive website to understand Wassily Kandinsky\'s "science of art"',
   base: '/',
   head: [
-    ['link', { rel: 'icon', href: '/images/favicon.png' } ]
+    ['link', { rel: 'icon', href: '/images/favicon.png' } ],
+    ['link', { rel: 'stylesheet', href: '/styles/vueperslides.css' } ]
   ],
   themeConfig: {
+    logo: '/images/favicon.png',
     repo: 'jonobr1/expressing-k',
-    repoLabel: 'Project Source Code',
+    repoLabel: 'Github',
     docsDirs: 'site',
     docsBranch: 'master',
     editLinks: true,
-    editLinkText: 'See a typo? Help us improve it.',
+    editLinkText: 'See a typo? Help me improve it.',
     smoothScroll: true,
-    nav: [],
+    nav: [
+      { text: 'About', link: '/about/' },
+      { text: 'Thesis Abstract', link: '/thesis-abstract/' }
+    ],
     lastUpdated: 'Last Updated',
     displayAllHeaders: true,
     activeHeaderLinks: false,
     searchPlaceholder: 'Search...'
   },
   markdown: {
-    lineNumbers: true
+    lineNumbers: true,
+    extendMarkdown: (md) => {
+      md.use(require('markdown-it-footnote'));
+    }
   },
-  plugins: ['@vuepress/medium-zoom', '@vuepress/nprogress']
+  plugins: [
+    '@vuepress/medium-zoom',
+    '@vuepress/nprogress'
+  ]
 };
