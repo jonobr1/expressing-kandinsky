@@ -23,22 +23,25 @@
         var Two = resp.default;
 
         var rect = this.$refs.stage.getBoundingClientRect();
+        var startWidth = rect.width;
+        var startHeight = Math.max(rect.height, 480);
+
         var two = this.two = new Two({
           type: this.type,
-          width: rect.width,
-          height: Math.max(rect.height, 480),
+          width: startWidth,
+          height: startHeight,
           autostart: true
         }).appendTo(this.$refs.stage);
 
         this.resize = (e) => {
 
           var rect = this.$refs.stage.getBoundingClientRect();
-          var width = Math.min(rect.width, two.width);
-          var height = Math.min(rect.height, two.height);
+          var width = Math.min(rect.width, startWidth);
+          var height = Math.min(rect.height, startHeight);
 
+          two.renderer.setSize(width, height);
           two.width = width;
           two.height = height;
-          two.renderer.setSize(width, height);
 
         };
         window.addEventListener('resize', this.resize, false);
