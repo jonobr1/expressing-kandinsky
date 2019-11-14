@@ -36,7 +36,7 @@
         this.resize = (e) => {
 
           var rect = this.$refs.stage.getBoundingClientRect();
-          var width = Math.min(rect.width, startWidth);
+          var width = rect.width
           var height = Math.min(rect.height, startHeight);
 
           two.renderer.setSize(width, height);

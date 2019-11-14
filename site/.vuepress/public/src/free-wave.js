@@ -1,19 +1,16 @@
 var HALF_PI = Math.PI / 2;
 var mouse = new Two.Vector();
+var touch;
 var line = new Two.Line();
 var waves = new Two.Group();
 
 two.add(line, waves);
 
 two.renderer.domElement.addEventListener('mousedown', mousedown, false);
-// two.renderer.domElement.addEventListener('touchstart', touchstart, false);
-// two.renderer.domElement.addEventListener('touchmove', touchmove, false);
-// two.renderer.domElement.addEventListener('touchend', touchend, false);
-// two.renderer.domElement.addEventListener('touchcancel', touchcancel, false);
-
-two.bind('resize', function() {
-
-});
+two.renderer.domElement.addEventListener('touchstart', touchstart, false);
+two.renderer.domElement.addEventListener('touchmove', touchmove, false);
+two.renderer.domElement.addEventListener('touchend', touchend, false);
+two.renderer.domElement.addEventListener('touchcancel', touchend, false);
 
 two.bind('update', function() {
 
@@ -60,7 +57,6 @@ function mousedown(e) {
 
 function mousemove(e) {
 
-
   var rect = two.renderer.domElement.getBoundingClientRect();
   var x = document.body.scrollLeft + e.clientX;
   var y = document.body.scrollTop + e.clientY;
@@ -86,7 +82,20 @@ function mouseup(e) {
 }
 
 function touchstart(e) {
+  e.preventDefault();
+  touch = e.touches[0];
+  mousedown(touch);
+}
 
+function touchmove(e) {
+  e.preventDefault();
+  touch = e.touches[0];
+  mousemove(touch);
+}
+
+function touchend(e) {
+  e.preventDefault();
+  mouseup(e.touches[0] || touch);
 }
 
 function add(a, b) {
