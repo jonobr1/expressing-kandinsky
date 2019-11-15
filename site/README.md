@@ -23,8 +23,7 @@ When I think of the time I've spent sifting through Kandinsky's writing, his wor
 
 ### 1. [Complex Angular Lines](./contemplation-1.html)
 __25-10-2019__: An interactive look at how Kandinsky creates the basis for his gestural lines.
-### X. More Soon
-<!-- ### 2. [Sentiment Analysis](./contemplation-2.html)
-A data-visualization on the sentiment of each sentence in his two major publications. -->
+### 2. [Sentiment Analysis](./contemplation-2.html)
+__05-11-2019__: A data-visualization on the sentiment of each sentence in his two major publications.
 
 <br />

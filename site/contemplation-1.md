@@ -1,3 +1,8 @@
+---
+prev: false
+next: ./contemplation-2
+---
+
 # Contemplation 1
 
 ## Introduction
@@ -28,3 +33,5 @@ In my contemplation below I took this description and codified it. Every time yo
 <Contemplation sketch="/src/1-complex-angular-lines.js"></Contemplation>
 
 Click and drag with your mouse or touch-screen in order to plot the distance of either a zig-zag or wave-like line. This lightweight web application will display the rest.^[Source code for this contemplation can be found here: [link](/src/1-complex-angular-lines.js)]
+
+<br />

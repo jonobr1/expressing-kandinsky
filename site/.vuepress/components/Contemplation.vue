@@ -14,6 +14,9 @@
       sketch: {
         type: String,
         default: ''
+      },
+      params: {
+        type: Object
       }
     },
     mounted: function() {
@@ -26,11 +29,13 @@
         var startWidth = rect.width;
         var startHeight = Math.max(rect.height, 480);
 
-        var two = this.two = new Two({
+        var params = Two.Utils.defaults(this.params || {}, {
           type: this.type,
           width: startWidth,
           height: startHeight
-        }).appendTo(this.$refs.stage);
+        });
+
+        var two = this.two = new Two(params).appendTo(this.$refs.stage);
 
         this.resize = (e) => {
 
@@ -99,6 +104,7 @@
     },
     beforeDestroyed: function() {
       window.removeEventListener('resize', this.resize, false);
+      document.body.removeEventListener('wheel', this.scroll, false);
       var two = this.two;
       if (two.playing) {
         two.pause();
