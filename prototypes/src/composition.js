@@ -62,6 +62,7 @@
         var child = this.children[i];
         var offset = 0; // TOOD: Make this interesting
 
+        var data = child.userData;
         var beat = (time + offset) % mupb;
         var pct = beat / mupb;
 
@@ -71,13 +72,15 @@
         }
 
         if (/(points|planes)/i.test(child.material.map.userData.type)) {
-          child.scale.x = child.userData.scale + child.userData.direction * Math.sin(pct * Math.PI) * 0.33;
+          child.scale.x = data.scale
+            + data.direction * Math.sin(pct * Math.PI) * data.magnitude;
           child.scale.y = child.scale.x;
           child.scale.z = child.scale.x;
         }
 
         if (/(lines|planes)/i.test(child.material.map.userData.type)) {
-          child.rotation.z = child.userData.rotation + child.userData.direction * Math.sin(pct * TWO_PI) * 0.33;
+          child.rotation.z = data.rotation
+            + data.direction * Math.sin(pct * TWO_PI) * data.magnitude;
         }
 
       }
@@ -156,6 +159,7 @@
     end: function(x, y) {
 
       if (this.current) {
+        this.current.userData.magnitude = Math.random() * 0.30 + 0.03;
         this.current.userData.direction = Math.random() > 0.5 ? 1 : - 1;
         this.current.userData.rotation = this.current.rotation.z;
         this.current.userData.scale = this.current.scale.x;
