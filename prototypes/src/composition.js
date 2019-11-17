@@ -107,7 +107,7 @@
 
         if (/(lines|planes)/i.test(type)) {
           child.rotation.z = data.rotation
-            + data.direction * Math.sin(data.phi * pct * TWO_PI)
+            + data.direction * Math.pow(Math.sin(data.phi * pct * TWO_PI), 2)
             * data.magnitude;
         }
 
@@ -188,8 +188,10 @@
 
       if (this.current) {
 
-        this.current.userData.phi = Math.floor(Math.random() * 4) + 1;
+        this.current.userData.phi = Math.random() * 4 + 1;
+        this.current.userData.phi = Math.floor(this.current.userData.phi);
         this.current.userData.magnitude = Math.random() * 0.4 + 0.1;
+        this.current.userData.magnitude /= this.current.scale.x;
         this.current.userData.direction = Math.random() > 0.5 ? 1 : - 1;
         this.current.userData.rotation = this.current.rotation.z;
         this.current.userData.scale = this.current.scale.x;
