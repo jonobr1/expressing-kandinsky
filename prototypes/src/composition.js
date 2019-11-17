@@ -99,7 +99,7 @@
 
         if (/(points|planes)/i.test(type)) {
           child.scale.x = data.scale
-            + data.direction * Math.pow(Math.sin(pct * Math.PI), 2)
+            + data.direction * Math.pow(Math.sin(pct * Math.PI), 4)
             * data.magnitude;
           child.scale.y = child.scale.x;
           child.scale.z = child.scale.x;
