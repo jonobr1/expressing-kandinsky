@@ -44,6 +44,8 @@
 
         function setup() {
 
+          scene.fog = new THREE.Fog(0xffffff, 80, 160);
+
           composition.set(shapes);
           scene.add(composition);
           document.body.appendChild(renderer.domElement);
@@ -73,8 +75,9 @@
           camera.updateProjectionMatrix();
         }
 
-        function update() {
+        function update(time) {
           camera.userData.controls.update();
+          composition.update(time);
           renderer.render(scene, camera);
         }
 

@@ -43,6 +43,8 @@
   var amount = 62;
   var ready = _.after(amount, loaded);
   var sizes = [32, 64, 128, 512, 1024, 2048, 4096];
+  var types = ['points', 'lines', 'planes'];
+  types.indices = [6, 36, 62];
 
   _.map(_.range(0, amount), function(i) {
 
@@ -57,6 +59,20 @@
     var two = new Two({ type: Two.Types.canvas });
     var canvas = two.renderer.domElement;
     var texture = new THREE.Texture(canvas);
+
+    texture.userData = {};
+
+    for (var j = 0; j < types.length; j++) {
+
+      var type = types[j];
+      var count = types.indices[j];
+
+      if (count >= index) {
+        texture.userData.type = type;
+        break;
+      }
+
+    }
 
     Shapes.Textures.push(texture);
 

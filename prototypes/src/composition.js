@@ -3,6 +3,7 @@
   var _ = Two.Utils;
 
   var HALF_PI = Math.PI / 2;
+  var TWO_PI = Math.PI * 2;
   var mouse = new THREE.Vector2();
   var raycaster = new THREE.Raycaster();
   var PlaneGeometry = new THREE.PlaneBufferGeometry(0.1, 0.1, 10, 10);
@@ -28,15 +29,66 @@
 
     this.hitbox.visible = false;
     this.hitbox.renderOrder = 500;
+    this.hitbox.userData.isHitbox = true;
     this.add(this.hitbox);
 
   };
 
+  _.extend(Composition, {
+
+    Limit: 25
+
+  });
+
   _.extend(Composition.prototype, THREE.Group.prototype, {
+
+    index: 0,
+
+    bpm: 124,
 
     constructor: Composition,
 
-    update: function() {
+    update: function(time) {
+
+      var start = this.index;
+      var end = Math.min(this.index + Composition.Limit, this.children.length);
+
+      var bps = this.bpm / 60;
+      var spb = 1 / bps;
+      var mupb = spb * 1000;
+
+      for (var i = start; i < end; i++) {
+
+        var child = this.children[i];
+        var offset = 0; // TOOD: Make this interesting
+
+        var beat = (time + offset) % mupb;
+        var pct = beat / mupb;
+
+        if (child.userData.isHitbox
+          || (this.current && this.current.id === child.id)) {
+          continue;
+        }
+
+        if (/(points|planes)/i.test(child.material.map.userData.type)) {
+          child.scale.x = child.userData.scale + child.userData.direction * Math.sin(pct * Math.PI) * 0.33;
+          child.scale.y = child.scale.x;
+          child.scale.z = child.scale.x;
+        }
+
+        if (/(lines|planes)/i.test(child.material.map.userData.type)) {
+          child.rotation.z = child.userData.rotation + child.userData.direction * Math.sin(pct * TWO_PI) * 0.33;
+        }
+
+      }
+
+      this.index = end;
+
+      if (this.index >= this.children.length) {
+        this.index = 0;
+      }
+
+      return this;
 
     },
 
@@ -104,6 +156,9 @@
     end: function(x, y) {
 
       if (this.current) {
+        this.current.userData.direction = Math.random() > 0.5 ? 1 : - 1;
+        this.current.userData.rotation = this.current.rotation.z;
+        this.current.userData.scale = this.current.scale.x;
         this.current = null;
       }
 
