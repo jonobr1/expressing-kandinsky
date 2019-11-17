@@ -12,6 +12,8 @@
 
     THREE.Group.call(this);
 
+    this.mode = Composition.Modes.Outlines;
+
     this.camera = camera;
     this.hitbox = new THREE.Mesh(
       PlaneGeometry.clone().scale(100, 100, 100),
@@ -36,7 +38,12 @@
 
   _.extend(Composition, {
 
-    Limit: 25
+    Limit: 50,
+
+    Modes: {
+      Color: 'color',
+      Outline: 'outline'
+    }
 
   });
 
@@ -55,32 +62,53 @@
 
       var bps = this.bpm / 60;
       var spb = 1 / bps;
-      var mupb = spb * 1000;
 
       for (var i = start; i < end; i++) {
 
         var child = this.children[i];
-        var offset = 0; // TOOD: Make this interesting
-
-        var data = child.userData;
-        var beat = (time + offset) % mupb;
-        var pct = beat / mupb;
 
         if (child.userData.isHitbox
           || (this.current && this.current.id === child.id)) {
           continue;
         }
 
-        if (/(points|planes)/i.test(child.material.map.userData.type)) {
+        var type = child.material.map.userData.type;
+
+        var bar, beat, pct, mupb, offset;
+
+        switch (type) {
+          case 'points':
+            mupb = spb * 500;
+            bar = mupb * Shapes.Types.lengths[Shapes.Types.map.points];
+            break;
+          case 'lines':
+            mupb = spb * 1000;
+            bar = mupb * Shapes.Types.lengths[Shapes.Types.map.lines];
+            break;
+          case 'planes':
+            mupb = spb * 2000;
+            bar = mupb * Shapes.Types.lengths[Shapes.Types.map.planes];
+            break;
+        }
+
+        offset = child.material.map.userData.offset * mupb;
+        beat = (time + offset) % bar;
+        pct = Math.min(beat / mupb, 1);
+
+        var data = child.userData;
+
+        if (/(points|planes)/i.test(type)) {
           child.scale.x = data.scale
-            + data.direction * Math.sin(pct * Math.PI) * data.magnitude;
+            + data.direction * Math.pow(Math.sin(pct * Math.PI), 2)
+            * data.magnitude;
           child.scale.y = child.scale.x;
           child.scale.z = child.scale.x;
         }
 
-        if (/(lines|planes)/i.test(child.material.map.userData.type)) {
+        if (/(lines|planes)/i.test(type)) {
           child.rotation.z = data.rotation
-            + data.direction * Math.sin(pct * TWO_PI) * data.magnitude;
+            + data.direction * Math.sin(data.phi * pct * TWO_PI)
+            * data.magnitude;
         }
 
       }
@@ -159,11 +187,15 @@
     end: function(x, y) {
 
       if (this.current) {
-        this.current.userData.magnitude = Math.random() * 0.30 + 0.03;
+
+        this.current.userData.phi = Math.floor(Math.random() * 4) + 1;
+        this.current.userData.magnitude = Math.random() * 0.4 + 0.1;
         this.current.userData.direction = Math.random() > 0.5 ? 1 : - 1;
         this.current.userData.rotation = this.current.rotation.z;
         this.current.userData.scale = this.current.scale.x;
+
         this.current = null;
+
       }
 
       this.hitbox.visible = false;
