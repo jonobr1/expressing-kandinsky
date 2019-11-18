@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Kandinsky Collaborations</title>
+    <link rel="icon" type="image/png" href="../site/.vuepress/public/images/favicon.png">
+    <style>
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      canvas, svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -400px;
+        margin-top: -280px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="two">
+      <script src="./third-party/two.js"></script>
+      <script src="./third-party/three.js"></script>
+      <script src="./third-party/OrbitControls.js"></script>
+      <script src="./src/shapes.js"></script>
+      <script src="./src/composition.js"></script>
+      <script>
+
+        var renderer = new THREE.WebGLRenderer({ antialias: false });
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(35);
+
+        var width, height;
+        var shapes = new Shapes(setup);
+        var composition = new Composition(camera);
+        var stopControls = debounce(function() {
+          camera.userData.controls.enabled = false;
+        }, 100);
+
+        function setup() {
+
+          scene.fog = new THREE.Fog(0xffffff, 80, 160);
+
+          composition.set(shapes);
+          scene.add(composition);
+          document.body.appendChild(renderer.domElement);
+
+          resize();
+
+          window.addEventListener('resize', resize, false);
+          renderer.domElement.addEventListener('mousedown', mousedown, false);
+
+          window.addEventListener('keydown', keydown, false);
+          window.addEventListener('keyup', keyup, false);
+
+          camera.position.z = 100;
+          camera.userData.controls = new THREE.OrbitControls(camera, renderer.domElement);
+          camera.userData.controls.enabled = false;
+
+          renderer.setClearColor(0xffffff);
+          renderer.setAnimationLoop(update);
+
+        }
+
+        function resize() {
+          width = Math.min(800, window.innerWidth - 50);
+          height = width * (560 / 800);
+          renderer.setSize(width, height);
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+        }
+
+        function update(time) {
+          camera.userData.controls.update();
+          composition.update(time);
+          renderer.render(scene, camera);
+        }
+
+        //
+
+        function keydown(e) {
+
+          switch (e.key.toLowerCase()) {
+            case 'meta':
+              camera.userData.controls.enabled = true;
+              break;
+            case 'c':
+              composition.mode = Composition.Modes.Color;
+              break;
+            case 'o':
+              composition.mode = Composition.Modes.Outline;
+              break;
+          }
+
+        }
+
+        function keyup(e) {
+          if (/meta/i.test(e.key)) {
+            camera.userData.controls.enabled = false;
+          }
+        }
+
+        function mousedown(e) {
+
+          if (camera.userData.controls.enabled) {
+            e.preventDefault();
+            return;
+          }
+
+          var rect = renderer.domElement.getBoundingClientRect();
+          var x = ((e.clientX - rect.left) / width) * 2 - 1;
+          var y = - ((e.clientY - rect.top) / height) * 2 + 1;
+          composition.start(x, y);
+
+          window.addEventListener('mousemove', mousemove, false);
+          window.addEventListener('mouseup', mouseup, false);
+
+        }
+
+        function mousemove(e) {
+          var rect = renderer.domElement.getBoundingClientRect();
+          var x = ((e.clientX - rect.left) / width) * 2 - 1;
+          var y = - ((e.clientY - rect.top) / height) * 2 + 1;
+          composition.drag(x, y);
+        }
+
+        function mouseup(e) {
+          var rect = renderer.domElement.getBoundingClientRect();
+          var x = ((e.clientX - rect.left) / width) * 2 - 1;
+          var y = - ((e.clientY - rect.top) / height) * 2 + 1;
+          composition.end(x, y);
+        }
+
+        function debounce(func, delay) {
+          var timeout;
+          return function() {
+            if (timeout) {
+              clearTimeout(timeout);
+            }
+            timeout = setTimeout(func, delay);
+          };
+        }
+
+      </script>
+    </div>
+  </body>
+</html>
