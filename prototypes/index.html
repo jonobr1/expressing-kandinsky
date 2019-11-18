@@ -28,24 +28,69 @@
       <script src="./third-party/two.js"></script>
       <script src="./third-party/three.js"></script>
       <script src="./third-party/OrbitControls.js"></script>
+      <script src="./third-party/CopyShader.js"></script>
+      <script src="./third-party/EffectComposer.js"></script>
+      <script src="./third-party/ShaderPass.js"></script>
+      <script src="./third-party/RenderPass.js"></script>
       <script src="./src/shapes.js"></script>
       <script src="./src/composition.js"></script>
+      <script src="./src/paint.js"></script>
       <script>
 
-        var renderer = new THREE.WebGLRenderer({ antialias: false });
+        var renderer = new THREE.WebGLRenderer({ antialias: true });
+        var composer = new THREE.EffectComposer(renderer);
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(35);
 
         var width, height;
-        var shapes = new Shapes(setup);
+        var origin = new Two.Vector();
+
         var composition = new Composition(camera);
+        var paint = new Paint();
         var stopControls = debounce(function() {
           camera.userData.controls.enabled = false;
         }, 100);
+        var shapes = new Shapes(setup);
 
         function setup() {
 
-          scene.fog = new THREE.Fog(0xffffff, 80, 160);
+          var shader = new THREE.ShaderMaterial({
+
+            uniforms: {
+              tDiffuse: { type: 't', value: null },
+              tBackground: { type: 't', value: paint.texture }
+            },
+
+            vertexShader: [
+
+              'varying vec2 vUv;',
+
+              'void main() {',
+                'vUv = uv;',
+                'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+              '}'
+
+            ].join('\n'),
+
+            fragmentShader: [
+
+              'uniform sampler2D tDiffuse;',
+              'uniform sampler2D tBackground;',
+
+              'varying vec2 vUv;',
+
+              'void main() {',
+                'vec4 bt = texture2D( tBackground, vUv );',
+                'vec4 dt = texture2D( tDiffuse, vUv );',
+                'gl_FragColor = vec4( bt.rgb * dt.rgb, 1.0 );',
+              '}'
+
+            ].join('\n')
+
+          });
+
+          composer.addPass(new THREE.RenderPass(scene, camera));
+          composer.addPass(new THREE.ShaderPass(shader));
 
           composition.set(shapes);
           scene.add(composition);
@@ -71,7 +116,9 @@
         function resize() {
           width = Math.min(800, window.innerWidth - 50);
           height = width * (560 / 800);
+          paint.setSize(width, height);
           renderer.setSize(width, height);
+          composer.setSize(width, height);
           camera.aspect = width / height;
           camera.updateProjectionMatrix();
         }
@@ -79,7 +126,8 @@
         function update(time) {
           camera.userData.controls.update();
           composition.update(time);
-          renderer.render(scene, camera);
+          paint.update(time);
+          composer.render();
         }
 
         //
@@ -87,22 +135,24 @@
         function keydown(e) {
 
           switch (e.key.toLowerCase()) {
+            case 'control':
+            case 'ctrl':
             case 'meta':
+              e.preventDefault();
               camera.userData.controls.enabled = true;
-              break;
-            case 'c':
-              composition.mode = Composition.Modes.Color;
-              break;
-            case 'o':
-              composition.mode = Composition.Modes.Outline;
               break;
           }
 
         }
 
         function keyup(e) {
-          if (/meta/i.test(e.key)) {
-            camera.userData.controls.enabled = false;
+          switch (e.key.toLowerCase()) {
+            case 'control':
+            case 'ctrl':
+            case 'meta':
+              e.preventDefault();
+              camera.userData.controls.enabled = false;
+              break;
           }
         }
 
@@ -114,8 +164,12 @@
           }
 
           var rect = renderer.domElement.getBoundingClientRect();
-          var x = ((e.clientX - rect.left) / width) * 2 - 1;
-          var y = - ((e.clientY - rect.top) / height) * 2 + 1;
+          var x = (e.clientX - rect.left);
+          var y = (e.clientY - rect.top);
+          origin.set(x, y);
+
+          x = ((e.clientX - rect.left) / width) * 2 - 1;
+          y = - ((e.clientY - rect.top) / height) * 2 + 1;
           composition.start(x, y);
 
           window.addEventListener('mousemove', mousemove, false);
@@ -131,10 +185,16 @@
         }
 
         function mouseup(e) {
+
           var rect = renderer.domElement.getBoundingClientRect();
-          var x = ((e.clientX - rect.left) / width) * 2 - 1;
-          var y = - ((e.clientY - rect.top) / height) * 2 + 1;
+          var x = (e.clientX - rect.left);
+          var y = (e.clientY - rect.top);
+          paint.paint(origin.x, origin.y, x, y);
+
+          x = (x / width) * 2 - 1;
+          y = - (y / height) * 2 + 1;
           composition.end(x, y);
+
         }
 
         function debounce(func, delay) {

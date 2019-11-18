@@ -43,7 +43,7 @@
   });
 
   var amount = 62;
-  var ready = _.after(amount, loaded);
+  var ready = _.after(amount, _.once(loaded));
   var sizes = [32, 64, 128, 512, 1024, 2048, 4096];
 
   Shapes.Types.indices = [6, 36, 62];
