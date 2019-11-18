@@ -41,8 +41,8 @@
     Limit: 50,
 
     Modes: {
-      Color: 'color',
-      Outline: 'outline'
+      color: 'color',
+      outline: 'outline'
     }
 
   });

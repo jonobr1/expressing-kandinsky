@@ -44,6 +44,7 @@
 
         var width, height;
         var origin = new Two.Vector();
+        var mode = Composition.Modes.outline;
 
         var composition = new Composition(camera);
         var paint = new Paint();
@@ -141,6 +142,12 @@
               e.preventDefault();
               camera.userData.controls.enabled = true;
               break;
+            case 'o':
+              mode = Composition.Modes.outline;
+              break;
+            case 'c':
+              mode = Composition.Modes.color;
+              break;
           }
 
         }
@@ -170,7 +177,9 @@
 
           x = ((e.clientX - rect.left) / width) * 2 - 1;
           y = - ((e.clientY - rect.top) / height) * 2 + 1;
-          composition.start(x, y);
+          if (mode === Composition.Modes.outline) {
+            composition.start(x, y);
+          }
 
           window.addEventListener('mousemove', mousemove, false);
           window.addEventListener('mouseup', mouseup, false);
@@ -189,11 +198,18 @@
           var rect = renderer.domElement.getBoundingClientRect();
           var x = (e.clientX - rect.left);
           var y = (e.clientY - rect.top);
-          paint.paint(origin.x, origin.y, x, y);
+          if (mode === Composition.Modes.color) {
+            paint.paint(origin.x, origin.y, x, y);
+          }
 
           x = (x / width) * 2 - 1;
           y = - (y / height) * 2 + 1;
-          composition.end(x, y);
+          if (mode === Composition.Modes.outline) {
+            composition.end(x, y);
+          }
+
+          window.removeEventListener('mousemove', mousemove, false);
+          window.removeEventListener('mouseup', mouseup, false);
 
         }
 

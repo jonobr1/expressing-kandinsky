@@ -174,7 +174,7 @@
         drop.stroke = 'rgba(0, 0, 0, 1)';
         drop.linewidth = Math.random();
         drop.fill = this.getColorVariant(index);
-        drop.opacity = Math.random() * feather / 2;
+        drop.opacity = Math.random() * feather;
 
         for (var j = 0; j < drop.vertices.length; j++) {
 
