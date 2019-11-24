@@ -34,10 +34,36 @@
 
     constructor: Shapes,
 
-    get: function() {
+    get: function(type) {
+
       var index = this.index;
-      this.index = (this.index + 1) % Shapes.Textures.length;
+      var a, b;
+
+      switch (type) {
+        case 'points':
+          a = 0;
+          b = Shapes.Types.indices[0];
+          index = mod(index, a, b);
+          this.index = mod(this.index + 1, a, b);
+          break;
+        case 'lines':
+          a = Shapes.Types.indices[0];
+          b = Shapes.Types.indices[1];
+          index = mod(index, a, b);
+          this.index = mod(this.index + 1, a, b);
+          break;
+        case 'planes':
+          a = Shapes.Types.indices[1];
+          b = Shapes.Types.indices[2];
+          index = mod(index, a, b);
+          this.index = mod(this.index + 1, a, b);
+          break;
+        default:
+          this.index = (this.index + 1) % Shapes.Textures.length;
+      }
+
       return Shapes.Textures[index];
+
     }
 
   });
@@ -116,6 +142,16 @@
     }
 
     Shapes.loaded = true;
+
+  }
+
+  function mod(v, a, b) {
+
+    var t = (v - a) % (b - a);
+    if (t < 0) {
+      t = Math.abs(t);
+    }
+    return t + a;
 
   }
 

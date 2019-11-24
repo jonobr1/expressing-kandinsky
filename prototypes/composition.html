@@ -12,9 +12,12 @@
       }
 
       canvas, svg {
-        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -400px;
+        margin-top: -280px;
         border: 1px solid #ccc;
-        margin: 50px 25px;
         outline: none;
       }
 
@@ -32,7 +35,6 @@
       <script src="./src/shapes.js"></script>
       <script src="./src/composition.js"></script>
       <script src="./src/paint.js"></script>
-      <script src="./src/sequencer.js"></script>
       <script>
 
         var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -46,7 +48,6 @@
 
         var composition = new Composition(camera);
         var paint = new Paint();
-        var sequencer = new Sequencer('./assets/shed.json');
         var stopControls = debounce(function() {
           camera.userData.controls.enabled = false;
         }, 100);
@@ -93,13 +94,8 @@
           composer.addPass(new THREE.ShaderPass(shader));
 
           composition.set(shapes);
-          composition.type = Composition.Types.points;
-
           scene.add(composition);
           document.body.appendChild(renderer.domElement);
-          sequencer.appendTo(document.body);
-
-          sequencer.bind('note', onNote);
 
           resize();
 
@@ -118,29 +114,19 @@
 
         }
 
-        function onNote(note) {
-          composition.reserve(note);
-        }
-
         function resize() {
-
           width = Math.min(800, window.innerWidth - 50);
           height = width * (560 / 800);
-
-          sequencer.setSize(width, width * (100 / 400));
           paint.setSize(width, height);
           renderer.setSize(width, height);
           composer.setSize(width, height);
-
           camera.aspect = width / height;
           camera.updateProjectionMatrix();
-
         }
 
         function update(time) {
           camera.userData.controls.update();
           composition.update(time);
-          sequencer.update(time);
           paint.update(time);
           composer.render();
         }
@@ -158,17 +144,8 @@
               break;
             case '1':
               mode = Composition.Modes.outline;
-              composition.type = Composition.Types.points;
               break;
             case '2':
-              mode = Composition.Modes.outline;
-              composition.type = Composition.Types.lines;
-              break;
-            case '3':
-              mode = Composition.Modes.outline;
-              composition.type = Composition.Types.planes;
-              break;
-            case '4':
               mode = Composition.Modes.color;
               break;
           }
