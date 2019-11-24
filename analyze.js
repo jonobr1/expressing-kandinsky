@@ -9,7 +9,7 @@ var client = new language.LanguageServiceClient({
   projectId: projectId,
 });
 
-var uri = path.resolve(__dirname, './prototypes/assets/point-and-line-to-plane.txt');
+var uri = path.resolve(__dirname, './prototypes/assets/excerpt-on-spiritual-in-art.txt');
 var text = fs.readFileSync(uri).toString();
 
 var document = {
@@ -17,8 +17,8 @@ var document = {
   type: 'PLAIN_TEXT',
 };
 
-getSentiment(getTokens);
-// getTokens();
+// getSentiment(getTokens);
+getTokens();
 
 function getSentiment(callback) {
 
@@ -29,7 +29,7 @@ function getSentiment(callback) {
     console.log('Finished sentiment analysis');
 
     var result = resp[0];
-    var uri = path.resolve(__dirname, './prototypes/assets/point-and-line-to-plane.sentiments.json');
+    var uri = path.resolve(__dirname, './prototypes/assets/excerpt-on-spiritual-in-art.sentiments.json');
 
     fs.writeFileSync(uri, JSON.stringify(result));
     console.log('Exported JSON Analysis');
@@ -51,7 +51,7 @@ function getTokens(callback) {
     console.log('Finished syntax analysis');
 
     var result = resp[0];
-    var uri = path.resolve(__dirname, './prototypes/assets/point-and-line-to-plane.tokens.json');
+    var uri = path.resolve(__dirname, './prototypes/assets/excerpt-on-spiritual-in-art.tokens.json');
 
     fs.writeFileSync(uri, JSON.stringify(result));
     console.log('Exported JSON Analysis');

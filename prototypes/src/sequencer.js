@@ -76,19 +76,23 @@
     Types: [
       {
         name: 'points',
-        color: '#AE00FF'
+        color: '#AE00FF',
+        partOfSpeech: 'preposition'
       },
       {
         name: 'lines',
-        color: '#FF5555'
+        color: '#FF5555',
+        partOfSpeech: 'verb'
       },
       {
         name: 'planes',
-        color: 'orange'
+        color: 'orange',
+        partOfSpeech: 'noun'
       },
       {
         name: 'color',
-        color: '#39b54a'
+        color: '#39b54a',
+        partOfSpeech: 'adjective'
       }
     ],
 

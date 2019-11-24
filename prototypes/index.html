@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>The Kandinsky Collaborations</title>
     <link rel="icon" type="image/png" href="../site/.vuepress/public/images/favicon.png">
+    <link rel="stylesheet" href="https://use.typekit.net/uuw3qkz.css">
     <style>
 
       * {
@@ -11,17 +12,45 @@
         padding: 0;
       }
 
-      canvas, svg {
+      canvas, svg, div {
         display: block;
         border: 1px solid #ccc;
-        margin: 50px 25px;
+        margin: 25px 25px;
         outline: none;
+      }
+
+      div.editor {
+        /* font-family: linotype-didot, serif; */
+        font-family: futura-pt, sans-serif;
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 500;
+        font-style: normal;
+        display: block;
+        position: relative;
+        padding: 25px;
+        box-sizing: border-box;
+      }
+
+      div.editor > span {
+        display: inline-block;
+        margin-right: 5px;
+        border-bottom: 2px solid transparent;
+        /* transition: color 0.5s ease-in-out, border-color 0.5 ease-in-out; */
+        margin-top: 2.5px;
+      }
+      div.editor > span.punctuation {
+        margin-left: -5px;
+      }
+
+      div.scripts {
+        display: none;
       }
 
     </style>
   </head>
   <body>
-    <div id="two">
+    <div class="scripts">
       <script src="./third-party/two.js"></script>
       <script src="./third-party/three.js"></script>
       <script src="./third-party/OrbitControls.js"></script>
@@ -33,6 +62,7 @@
       <script src="./src/composition.js"></script>
       <script src="./src/paint.js"></script>
       <script src="./src/sequencer.js"></script>
+      <script src="./src/editor.js"></script>
       <script>
 
         var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -47,6 +77,7 @@
         var composition = new Composition(camera);
         var paint = new Paint();
         var sequencer = new Sequencer('./assets/shed.json');
+        var editor = new Editor('./assets/excerpt-on-spiritual-in-art.tokens.json');
         var stopControls = debounce(function() {
           camera.userData.controls.enabled = false;
         }, 100);
@@ -98,6 +129,7 @@
           scene.add(composition);
           document.body.appendChild(renderer.domElement);
           sequencer.appendTo(document.body);
+          editor.appendTo(document.body);
 
           sequencer.bind('note', onNote);
 
@@ -119,6 +151,7 @@
         }
 
         function onNote(note) {
+          editor.reserve(note);
           composition.reserve(note);
         }
 
@@ -127,6 +160,7 @@
           width = Math.min(800, window.innerWidth - 50);
           height = width * (560 / 800);
 
+          editor.setWidth(width);
           sequencer.setSize(width, width * (100 / 400));
           paint.setSize(width, height);
           renderer.setSize(width, height);
@@ -139,6 +173,7 @@
 
         function update(time) {
           camera.userData.controls.update();
+          editor.update(time);
           composition.update(time);
           sequencer.update(time);
           paint.update(time);
