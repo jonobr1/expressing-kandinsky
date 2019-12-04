@@ -4,7 +4,8 @@ module.exports = {
   base: '/',
   head: [
     ['link', { rel: 'icon', href: '/images/favicon.png' } ],
-    ['link', { rel: 'stylesheet', href: '/styles/vueperslides.css' } ]
+    ['link', { rel: 'stylesheet', href: '/styles/vueperslides.css' } ],
+    ['link', { rel: 'stylesheet', href: 'https://use.typekit.net/uuw3qkz.css' }]
   ],
   themeConfig: {
     logo: '/images/favicon.png',
