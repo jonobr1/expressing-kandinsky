@@ -1,5 +1,5 @@
 var _ = Two.Utils;
-var amount = 128;
+var amount = 64;
 var circles = [];
 
 two.scene.position.set(two.width / 2, two.height / 2);
@@ -30,8 +30,8 @@ two.bind('update', function(frameCount, timeDelta) {
   var frame = frameCount % total;
   var t = frame / total;
 
-  two.scene.scale = 10 + (t * 500);
-  circle.opacity = Math.max(1 - Math.pow(t, 0.025), 0);
+  two.scene.scale = 10.25 + (Math.pow(t, 2) * 500);
+  circle.opacity = Math.max(1 - Math.pow(t * 2, 2), 0);
 
   var radius = 0.9 * (1 - Math.pow(t, 0.125)) + 0.1;
 

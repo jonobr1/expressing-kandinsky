@@ -3,7 +3,7 @@ var words = ['Today', 'I', 'am', 'going', 'to', 'the', 'movies'];
 
 var text = two.makeText('Today I am going to the movies', 0, 0, {
   size: 20,
-  color: '#333',
+  fill: '#333',
   family: 'futura-pt, Arial, sans-serif',
   weight: 700,
   baseline: 'middle',
@@ -70,7 +70,7 @@ function update() {
 
 function reset() {
   words.index = 0;
-  words.pid = Math.floor(Math.random() * words.length) + 1;
+  words.pid = Math.floor(Math.random() * words.length - 1) + 1;
 }
 
 function capitalize(s) {
