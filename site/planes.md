@@ -17,3 +17,7 @@ In _Yellow Red Blue_ (below) we see numerous planes: some constructed with clear
 <center>
 Kandinsky, Wassily. _Yellow Red Blue_, 1925. ^[Kandinsky, Wassily. _Yellow Red Blue_. Oil on canvas. 127 x 200 cm. Paris: Centre Pompidou, 1925. Screenshot courtesy of [Wikipedia](https://www.wikidata.org/wiki/Q18705525)]
 </center>
+
+The contemplation below allows you to explore Kandinsky's notion of sides that construct a plane.^[Source code for this contemplation can be found here: [link](/src/4-stretch-plane.js).] Click and drag a corner in order to stretch a given side. Click the number to change the amount of sides for the plane.
+
+<Contemplation sketch="/src/4-stretch-plane.js"></Contemplation>
