@@ -1,5 +1,5 @@
 ---
-prev: ./contemplation-3
+prev: ./gestural-lines
 next: false
 ---
 
