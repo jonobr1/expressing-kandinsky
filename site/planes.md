@@ -21,3 +21,5 @@ Kandinsky, Wassily. _Yellow Red Blue_, 1925. ^[Kandinsky, Wassily. _Yellow Red B
 The contemplation below allows you to explore Kandinsky's notion of sides that construct a plane.^[Source code for this contemplation can be found here: [link](/src/4-stretch-plane.js).] Click and drag a corner in order to stretch a given side. Click the number to change the amount of sides for the plane.
 
 <Contemplation sketch="/src/4-stretch-plane.js"></Contemplation>
+
+<br />
