@@ -79,7 +79,13 @@
 
         function scroll() {
 
-          var rect = this.$refs.stage.getBoundingClientRect();
+          var stage = this.$refs.stage;
+
+          if (!stage) {
+            return;
+          }
+
+          var rect = stage.getBoundingClientRect();
           var isVisible = rect.bottom > 0 && rect.top < window.innerHeight
             && rect.right > 0 && rect.left < window.innerWidth;
 

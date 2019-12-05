@@ -1,6 +1,6 @@
-# Expressing K
+# Introduction
 
-Understanding Kandinsky's theories, techniques, and practice through bite-sized and interactive explorations known as [contemplations](#the-contemplations).
+Understanding Kandinsky's theories, techniques, and practice through bite-sized and real-time explorations known as [contemplations](#the-contemplations), a term specifically devised for _Expressing Kandinsky_.
 
 ## Why "Contemplation"?
 
@@ -21,11 +21,23 @@ When I think of the time I've spent sifting through Kandinsky's writing, his wor
 
 ## The Contemplations:
 
-### 1. [Complex Angular Lines](./contemplation-1.html)
-An interactive look at how Kandinsky creates the basis for his gestural lines.
-### 2. [Sentiment Analysis](./contemplation-2.html)
+### 1. [Sentiment Analysis](./sentiment-analysis.html)
 A data-visualization on the sentiment of each sentence in his two major publications.
-### 3. [Points](./contemplation-3.html)
-Visual explorations of definitions of the point in different 
+### 2. [Points](./points.html)
+Visual contemplations of definitions of the point in different media formats.
+### 3. [Lines](#)
+Coming soon.
+### 4. [Gestural Lines](./gestural-lines.html)
+An interactive look at how Kandinsky creates the basis for his gestural lines.
+### 5. [Planes](./planes.html)
+How the plane is more than the sum of its parts.
+### 6. [Colors: Goethe's Palette Questioned](#)
+Coming soon.
+### 7. [Colors: Texture Compatibility](#)
+Coming soon.
+### 8. [Arrangements](#)
+Coming soon.
+### 9. [The Pyramid](#)
+Coming soon.
 
 <br />

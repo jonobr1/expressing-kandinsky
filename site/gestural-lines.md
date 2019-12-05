@@ -1,17 +1,17 @@
 ---
-prev: false
-next: ./contemplation-2
+prev: ./points
+next: ./planes
 ---
 
-# Contemplation 1
+# Contemplation 4
 
-## Introduction
+## Gestural Lines
 
-One of Kandinsky's most notable forms are his curved lines. For me they express a whimsy and gestural quality that detracts from what would otherwise be considered a rigid rule-based plotting system. In _Yellow Red Blue_, 1925 (below) we can see one of these signature curved lines move from the top right to the bottom middle of the canvas. This line holds incredible detail and variation. Computer drawing software like [Adobe Illustrator](https://blogs.adobe.com/tonyharmer/2016/06/17/how-to-use-the-width-tool-in-illustrator/) only added details like varying stroke-width in the last 5 years.
+One of Kandinsky's most notable forms are his curved lines. For me they express a whimsy and gestural quality that detracts from what would otherwise be considered a rigid rule-based plotting system. In _Dominant Curve_, 1936 (below) we can see one of these signature curved lines move from the top right to the bottom middle of the canvas. This line holds incredible detail and variation. Computer drawing software like [Adobe Illustrator](https://blogs.adobe.com/tonyharmer/2016/06/17/how-to-use-the-width-tool-in-illustrator/) only added details like varying stroke-width in the last 5 years.
 
-![Kandinsky, Wassily. _Yellow Red Blue_, 1925.](/images/yellow-red-blue.jpg)
+![Kandinsky, Wassily. _Dominant Curve_, 1936.](/images/dominant-curve.jpg)
 <center>
-Kandinsky, Wassily. _Yellow Red Blue_, 1925.^[Kandinsky, Wassily. _Yellow Red Blue_. Oil on canvas. 127 x 200 cm. Paris: Centre Pompidou, 1925. Screenshot courtesy of [Wikipedia](https://www.wikidata.org/wiki/Q18705525)]
+Kandinsky, Wassily. _Dominant Curve_, 1936.^[Kandinsky, Wassily. _Dominant Curve_. Oil on canvas. 130 x 194 cm. New York: Solomon R. Guggenheim Museum, 1936. Screenshot courtesy of [Guggenheim](https://www.guggenheim.org/artwork/1972)]
 </center>
 
 For Kandinsky, there is a preceding set of rules in order to build a curve like this. For my first contemplation on Kandinsky's style, I'd like to look into this a bit deeper. This preceding concept is known as the _Complex Angular Line_. It has two basic forms: zig-zag and wave-like. The combination of these along with further displacement and varying stroke-width create the type of _free-wave_ line seen in _Yellow Red Blue_. Let's take a look at what the artist considers a complex angular line.
@@ -32,6 +32,6 @@ In my contemplation below I took this description and codified it. Every time yo
 
 <Contemplation sketch="/src/1-complex-angular-lines.js"></Contemplation>
 
-Click and drag with your mouse or touch-screen in order to plot the distance of either a zig-zag or wave-like line. This lightweight web application will display the rest.^[Source code for this contemplation can be found here: [link](/src/1-complex-angular-lines.js)]
+Click and drag with your mouse or touch-screen in order to plot the distance of either a zig-zag or wave-like line. This lightweight web application will display the rest.^[Source code for this contemplation can be found here: [link](/src/1-complex-angular-lines.js).]
 
 <br />
